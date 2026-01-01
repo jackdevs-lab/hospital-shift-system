@@ -1,37 +1,28 @@
-version: '3.8'
-
 services:
-  # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
     container_name: hospital-shift-db
     environment:
-      POSTGRES_DB: ${DB_NAME:-hospital_shifts}
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: hospital_shifts
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./infrastructure/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - hospital-network
 
-  # Redis Cache
   redis:
     image: redis:7-alpine
     container_name: hospital-shift-redis
     ports:
       - "6379:6379"
-    volumes:
-      - redis_data:/data
-      - ./infrastructure/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
-    command: redis-server /usr/local/etc/redis/redis.conf
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -40,74 +31,52 @@ services:
     networks:
       - hospital-network
 
-  # Backend API Server
   server:
     build:
       context: ./server
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+      target: development
     container_name: hospital-shift-server
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=development
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_NAME=${DB_NAME:-hospital_shifts}
-      - DB_USER=${DB_USER:-postgres}
-      - DB_PASSWORD=${DB_PASSWORD:-postgres}
-      - REDIS_URL=redis://redis:6379
-      - JWT_SECRET=${JWT_SECRET:-dev_jwt_secret}
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: hospital_shifts
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev_jwt_secret
+    volumes:
+      - ./server:/app
+      - /app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
-    volumes:
-      - ./server:/app
-      - /app/node_modules
     networks:
       - hospital-network
 
-  # Frontend PWA
   client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
+    image: node:18-alpine
     container_name: hospital-shift-client
+    working_dir: /app
+    command: npm run dev
+    volumes:
+      - ./client:/app
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_BASE_URL=http://localhost:3000/api
-      - VITE_APP_NAME=Hospital Shift System
-    volumes:
-      - ./client:/app
-      - /app/node_modules
+      VITE_API_BASE_URL: http://localhost:3000/api
     depends_on:
       - server
-    networks:
-      - hospital-network
-
-  # Nginx Reverse Proxy (optional)
-  nginx:
-    image: nginx:alpine
-    container_name: hospital-shift-nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./infrastructure/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./infrastructure/docker/nginx/ssl:/etc/nginx/ssl
-    depends_on:
-      - server
-      - client
     networks:
       - hospital-network
 
 volumes:
   postgres_data:
-    driver: local
-  redis_data:
-    driver: local
 
 networks:
   hospital-network:
