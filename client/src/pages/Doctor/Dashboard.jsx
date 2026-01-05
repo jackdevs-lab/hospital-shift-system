@@ -5,10 +5,11 @@ import {
 CalendarIcon,
 ClockIcon,
 CheckCircleIcon,
+BellIcon,
 XCircleIcon,
 ExclamationIcon,
 QrcodeIcon
-} from '@heroicons/react/24/solid';
+} from '@heroicons/react/solid';
 import { format, isToday, parseISO } from 'date-fns';
 import shiftService from '../../services/shiftService';
 import ShiftCard from '../../components/doctor/ShiftCard';

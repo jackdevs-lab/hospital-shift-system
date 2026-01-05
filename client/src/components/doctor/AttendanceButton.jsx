@@ -1,5 +1,5 @@
 import React from 'react';
-import { QrcodeIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import { QrcodeIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/outline';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 const AttendanceButton = ({ shift, onCheckIn, onCheckOut }) => {

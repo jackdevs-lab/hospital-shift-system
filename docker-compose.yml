@@ -69,7 +69,8 @@ services:
     ports:
       - "5173:5173"
     environment:
-      VITE_API_BASE_URL: http://localhost:3000/api
+      VITE_API_BASE_URL: http://server:3000/api   # Keep this!
+      HOST: 0.0.0.0                               # Add this line
     depends_on:
       - server
     networks:

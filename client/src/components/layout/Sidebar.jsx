@@ -2,15 +2,16 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import {
-HomeIcon,
-CalendarIcon,
-ClockIcon,
-QrcodeIcon,UsersIcon,
+  HomeIcon,
+  CalendarIcon,
+  ClockIcon,
+  QrcodeIcon,
+  UsersIcon,
   ChartBarIcon,
   ShieldCheckIcon,
   CogIcon,
-  LogoutIcon
-} from '@heroicons/react/24/outline';
+  LogoutIcon  // This is the modern logout icon
+} from '@heroicons/react/outline';
 const Sidebar = () => {
   const { user, logout } = useAuth();
   const location = useLocation();

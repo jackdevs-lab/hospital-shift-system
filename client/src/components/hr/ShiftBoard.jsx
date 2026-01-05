@@ -8,7 +8,7 @@ CheckCircleIcon,
 XCircleIcon,
 ExclamationIcon,
 ChevronDownIcon
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/outline';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import Table from '../common/Table';

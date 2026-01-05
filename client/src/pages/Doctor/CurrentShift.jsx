@@ -8,7 +8,7 @@ import {
   CalendarIcon,
   UserIcon,
   QrcodeIcon
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/outline';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import AttendanceButton from '../../components/doctor/AttendanceButton';

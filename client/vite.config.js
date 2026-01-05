@@ -112,19 +112,28 @@ sizes: '128x128',
     })
   ],
   server: {
+  host: '0.0.0.0',          // Bind to all interfaces
+  port: 5173,
+  strictPort: true,         // Prevent port fallback
+  hmr: {
+    host: 'localhost',      // Force HMR to use 'localhost' for client connections
     port: 5173,
-    host: true,
-    proxy: {
-      '/api': {
-        target: 'http://server:3000',
-        changeOrigin: true
-      },
-      '/ws': {
-        target: 'ws://server:3000',
-        ws: true
-      }
-    }
+    clientPort: 5173,       // Critical: Use the host-forwarded port
   },
+  watch: {
+    usePolling: true,       // Essential for WSL2/Docker volume stability
+  },
+  proxy: {
+    '/api': {
+      target: 'http://server:3000',
+      changeOrigin: true,
+    },
+    '/ws': {
+      target: 'ws://server:3000',
+      ws: true,
+    },
+  },
+},
   build: {
      outDir: 'dist',
     sourcemap: true,

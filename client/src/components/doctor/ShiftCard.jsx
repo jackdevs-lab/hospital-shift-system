@@ -8,7 +8,7 @@ UserIcon,
 CheckCircleIcon,
 XCircleIcon,
 ExclamationIcon
-} from '@heroicons/react/24/outline';
+} from '@heroicons/react/outline';
 import Button from '../common/Button';
 const ShiftCard = ({ shift, onCheckIn, onCheckOut, onViewDetails, compact = false }) => {
 const getStatusConfig = (status) => {

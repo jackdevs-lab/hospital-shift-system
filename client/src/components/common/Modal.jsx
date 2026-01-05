@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { XIcon } from '@heroicons/react/24/outline';
+import { XIcon } from '@heroicons/react/outline';
 import clsx from 'clsx';
 
 const Modal = ({ isOpen, onClose, title, children, size = 'md', hideClose = false }) => {

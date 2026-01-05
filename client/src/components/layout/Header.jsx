@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { BellIcon, Bars3Icon } from '@heroicons/react/24/solid';
+import { BellIcon,MenuIcon } from '@heroicons/react/solid';
 const Header = () => {
 const { user, logout, isAuthenticated } = useAuth();
 const navigate = useNavigate();
@@ -133,7 +133,7 @@ onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
 {mobileMenuOpen ? (
 <XIcon className="h-6 w-6 text-gray-600" />
 ) : (
-<Bars3Icon className="h-6 w-6 text-gray-600" />
+<MenuIcon className="h-6 w-6 text-gray-600" />
 )}
 </button>
 </div>

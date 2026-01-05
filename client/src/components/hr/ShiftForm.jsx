@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CalendarIcon, ClockIcon, UserIcon, XIcon } from '@heroicons/react/24/outline';
+import { CalendarIcon, ClockIcon, UserIcon, XIcon } from '@heroicons/react/outline';
 import Button from '../common/Button';
 import Modal from '../common/Modal';
 import shiftService from '../../services/shiftService';
